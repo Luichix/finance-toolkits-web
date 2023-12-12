@@ -1,0 +1,32 @@
+{
+  "site": {
+    "title": "Finance Toolkits | Articles, Tools, and Excel Templates",
+    "base_url": "https://www.financetoolkits.com",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/favicon.png",
+    "logo": "/images/logo.png",
+    "logo_width": "200",
+    "logo_height": "80",
+    "logo_text": "Finance Toolkits"
+  },
+  "settings": {
+    "templates": 10,
+    "pagination": 5,
+    "summary_length": 100
+  },
+  "metadata": {
+    "meta_author": "Luichix",
+    "meta_image": "/images/og-image.png",
+    "meta_description": "Finance Toolkits | Blog Articles, Financial Tools, and Excel Templates"
+  },
+  "params": {
+    "contact_form_action": "#",
+    "copyright": "Content © 2023 - All rights reserved by [Luichix](https://luichix.dev)"
+  },
+  "contactinfo": {
+    "address": "DDF Hotel Glomar, 3 1/2 South <br/> Chinandega, Nicaragua",
+    "email": "luisreynaldo.pch@gmail.com",
+    "phone": "+505 8458 4479"
+  }
+}

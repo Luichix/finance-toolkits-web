@@ -1,0 +1,15 @@
+/* ---------------------------------- group --------------------------------- */
+
+.dropdown {
+  @apply absolute  bg-white z-50 border border-border left-8 rounded-md py-4 px-4 w-52  min-w-max  whitespace-nowrap;
+
+  // /* ---------------------------------- menu ---------------------------------- */
+
+  .menu {
+    @apply flex flex-col gap-4;
+
+    li {
+      @apply font-bold;
+    }
+  }
+}

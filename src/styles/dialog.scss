@@ -1,0 +1,34 @@
+.dialog {
+  @apply p-4;
+
+  form {
+    @apply flex flex-col p-4 gap-4;
+
+    fieldset {
+      @apply flex flex-col gap-4 sm:grid sm:grid-cols-2 md:grid-cols-3;
+
+      label {
+        @apply flex flex-col text-text;
+      }
+
+      input {
+        @apply p-2;
+      }
+      .dialog-radio {
+        @apply flex flex-row gap-2 items-center;
+      }
+    }
+  }
+}
+
+.dialog-delete {
+  @apply p-8 rounded-md;
+
+  p {
+    @apply text-lg text-text font-bold w-64 text-center;
+  }
+
+  div {
+    @apply flex gap-4 pt-4;
+  }
+}

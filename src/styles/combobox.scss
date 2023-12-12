@@ -1,0 +1,136 @@
+.combobox {
+  @apply relative;
+  margin-top: 0.25rem; /* equivalent to Tailwind's mt-1 */
+
+  .button {
+    @apply absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 10px;
+    outline: none; /* equivalent to Tailwind's focus:outline-none */
+    background-color: transparent;
+    border: none;
+  }
+  .button:hover .icon {
+    color: #505053;
+  }
+  .icon {
+    height: 1.5rem; /* equivalent to Tailwind's h-5 */
+    width: 1.5rem; /* equivalent to Tailwind's w-5 */
+    color: #a1a1aa; /* equivalent to Tailwind's text-gray-400 */
+  }
+
+  /* ComboboxDropdown */
+  .dropdown {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    margin-top: 0.25rem;
+    max-height: 15rem;
+    width: 100%;
+    overflow-y: auto;
+    border-radius: 0.375rem;
+    background-color: #fff;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border-color: #a1a1aa;
+    border-width: 1px;
+  }
+
+  /* ComboboxOption */
+  .option {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+    user-select: none;
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+    color: #1f2937;
+  }
+
+  .option:active,
+  .option:hover {
+    @apply bg-primary;
+    color: #fff;
+  }
+
+  .option::selection {
+    font-weight: 600;
+  }
+
+  .circle {
+    position: relative;
+    display: flex;
+    padding: 2px;
+    border-radius: 50%;
+    @apply bg-primary;
+  }
+
+  .selected {
+    font-weight: 600; /* equivalent to Tailwind's font-semibold */
+  }
+
+  .check {
+    position: relative;
+    @apply text-white;
+    font-size: 14px;
+  }
+
+  .option:hover .check {
+    color: #fff; /* equivalent to Tailwind's text-white */
+  }
+}
+
+.buttons-account {
+  @apply absolute top-2 right-1 flex items-center gap-1;
+}
+
+.options-account {
+  @apply absolute bg-white w-full border border-border rounded my-1 py-2;
+  max-height: 12rem;
+  overflow-y: scroll;
+  .options {
+    @apply flex w-full  justify-between items-center px-2 text-gray-400;
+  }
+
+  .entity {
+    @apply text-gray-600;
+  }
+  .entity:active,
+  .entity:hover {
+    @apply bg-primary;
+    color: #fff;
+  }
+
+  .entity::selection {
+    font-weight: 600;
+  }
+
+  .circle {
+    position: relative;
+    display: flex;
+    padding: 2px;
+    border-radius: 50%;
+    @apply bg-primary;
+  }
+
+  .selected {
+    font-weight: 600; /* equivalent to Tailwind's font-semibold */
+  }
+
+  .check {
+    position: relative;
+    @apply text-white;
+    font-size: 14px;
+  }
+
+  .options:hover .check {
+    color: #fff; /* equivalent to Tailwind's text-white */
+  }
+}

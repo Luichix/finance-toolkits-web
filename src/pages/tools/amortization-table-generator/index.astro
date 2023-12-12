@@ -1,0 +1,43 @@
+---
+import Base from "@layouts/Base.astro";
+import AmortizationGenerator from "@components/tools/AmortizationGenerator";
+import { markdownify } from "@lib/utils/textConverter";
+import { getEntry } from "astro:content";
+import SimilarPosts from "@layouts/components/SimilarPosts.astro";
+import { getSinglePage } from "@lib/contentParser.astro";
+
+const entry = await getEntry("tools", "amortization-table-generator");
+const { Content } = await entry.render();
+const { title, description, meta_title, related_posts } = entry.data;
+const posts = await getSinglePage("posts");
+
+const relatedPosts = posts.filter((item: any) =>
+  related_posts?.includes(item.slug),
+);
+---
+
+<Base title={title} meta_title={meta_title} description={description}>
+  <section class="section">
+    <div class="container">
+      <h1 set:html={markdownify(title)} class="h3 mb-2" />
+      <p class="mb-4">{description}</p>
+      <AmortizationGenerator client:load />
+      <div class="pt-10">
+        <div class="content">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </section>
+  {
+    relatedPosts.length > 0 && (
+      <section class="section pt-0">
+        <div class="container">
+          <h2 class="mb-8 text-center h3">Related Posts</h2>
+          <SimilarPosts posts={relatedPosts.slice(0, 3)} />
+        </div>
+      </section>
+    )
+  }
+  <!-- similar posts -->
+</Base>

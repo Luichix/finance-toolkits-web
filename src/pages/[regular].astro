@@ -1,0 +1,44 @@
+---
+import Base from "@layouts/Base.astro";
+import Default from "@layouts/Default.astro";
+import PostSingle from "@layouts/PostSingle.astro";
+import { getSinglePage } from "@lib/contentParser.astro";
+import { type Post } from "@interfaces/post";
+
+const getPosts = (await getSinglePage("posts")) as Post[];
+const postsSlug = getPosts.map((item) => item.slug);
+
+export async function getStaticPaths() {
+  const posts = await getSinglePage("posts");
+  const pages = await getSinglePage("pages");
+  const allPages = [...pages, ...posts] as Post[];
+
+  const paths = allPages.map((page) => ({
+    params: {
+      regular: page.slug,
+    },
+    props: { page },
+  }));
+  return paths;
+}
+
+const { page } = Astro.props;
+const { title, meta_title, description, image } = page.data;
+
+const currentPage = new URL(Astro.request.url).pathname;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  {
+    postsSlug.includes(page.slug) ? (
+      <PostSingle post={page} />
+    ) : (
+      <Default data={page} />
+    )
+  }
+</Base>

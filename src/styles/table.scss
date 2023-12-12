@@ -1,0 +1,206 @@
+.table {
+  @apply w-full h-full border-border  border-collapse border-spacing-px text-center;
+  caption {
+    @apply caption-top text-left;
+  }
+  th {
+    @apply border-border bg-primary text-white p-2 whitespace-nowrap;
+  }
+
+  tbody tr {
+    @apply hover:bg-border hover:bg-opacity-60;
+  }
+
+  td {
+    @apply border-border   text-dark p-1;
+  }
+
+  tfoot {
+    @apply border-border border-y p-1 font-bold bg-theme-light;
+  }
+}
+
+.table-amortization {
+  tbody {
+    tr {
+      &:nth-child(12n + 14) {
+        // Estilo para las filas que son múltiplos de 12
+
+        // Cambia el estilo del borde superior para destacarlo aún más
+        border-top: 2px dashed #c9cccf;
+      }
+    }
+  }
+}
+
+.table-head-left {
+  @apply text-left;
+  td {
+    @apply px-4;
+  }
+}
+
+.table-journal-book {
+  @apply text-left;
+  thead {
+    @apply text-center;
+  }
+
+  tbody {
+    td {
+      @apply whitespace-nowrap overflow-hidden text-ellipsis p-0  h-8;
+    }
+  }
+
+  .edit-row {
+    @apply bg-border bg-opacity-60  hover:bg-border hover:bg-opacity-60 border-border border-y shadow-sm;
+  }
+
+  .table-input,
+  .table-textarea {
+    @apply border-0;
+    box-sizing: border-box;
+    background-color: transparent;
+    overflow: scroll-y;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-width: 100%;
+  }
+
+  .table-input {
+    width: 96px;
+  }
+
+  .table-textarea {
+    resize: none;
+    max-width: 200px;
+    padding: 4px 0;
+  }
+
+  .td-date {
+    width: 124px;
+  }
+
+  .input-editable {
+    background-color: #fff;
+  }
+}
+
+.account-t {
+  @apply bg-white rounded-md px-8 py-8  flex flex-col gap-y-8  lg:grid lg:grid-cols-2 lg:gap-y-8 lg:items-start;
+
+  @apply text-dark;
+
+  tr:nth-child(1),
+  tr:nth-child(2) {
+    @apply text-text;
+  }
+
+  th:nth-child(1),
+  th:nth-child(4) {
+    @apply w-28 min-w-[112px];
+  }
+
+  th:nth-child(2),
+  th:nth-child(3) {
+    @apply border-primary border-0 border-b-2 text-center w-28 min-w-[112px];
+  }
+
+  tbody {
+    td {
+      @apply h-6;
+    }
+    td:nth-child(2),
+    td:nth-child(5) {
+      @apply w-8;
+    }
+
+    td:nth-child(2),
+    td:nth-child(1) {
+      @apply text-right;
+    }
+
+    td:nth-child(3) {
+      @apply text-center  border-r-2 border-primary;
+    }
+    td:nth-child(4) {
+      @apply text-center;
+    }
+
+    td {
+      span {
+        @apply bg-primary rounded-full px-2 py-1 text-xs font-bold items-center text-white;
+      }
+    }
+
+    tr:nth-last-child(1),
+    tr:nth-last-child(2) {
+      td:nth-child(3),
+      td:nth-child(4) {
+        @apply border-t-2 border-t-border;
+      }
+    }
+  }
+}
+
+.table-trial-balance {
+  @apply text-left;
+  thead {
+    @apply text-center;
+  }
+
+  tbody {
+    td:nth-child(n + 3) {
+      @apply text-right px-4;
+    }
+  }
+
+  tfoot {
+    td {
+      @apply text-right px-4;
+    }
+  }
+  td:nth-last-child(2) {
+    @apply border-l-2 border-border;
+  }
+}
+
+.table-income-statement {
+  @apply border-border  border-collapse border-spacing-px whitespace-nowrap;
+
+  th {
+    @apply border-border bg-primary text-white p-2 whitespace-nowrap;
+  }
+
+  tbody {
+    td:nth-child(n + 2) {
+      @apply w-20  text-right px-2;
+    }
+
+    .line-account {
+      @apply border-b-2 border-neutral-400;
+    }
+  }
+}
+
+.table-balance-sheet {
+  @apply p-4 rounded-md whitespace-nowrap w-full flex;
+  .balance-sheet {
+    @apply flex flex-col sm:w-full md:max-w-full gap-12 lg:grid lg:grid-cols-2 lg:gap-12;
+
+    .assets {
+      @apply lg:row-start-1 lg:row-span-2;
+    }
+
+    .equity {
+      @apply lg:col-start-2;
+    }
+
+    tbody tr,
+    tfoot tr {
+      @apply hover:bg-border hover:bg-opacity-60;
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "main": [
+    {
+      "name": "Blog",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Articles",
+          "url": "/"
+        },
+        {
+          "name": "Authors",
+          "url": "/authors"
+        },
+        {
+          "name": "Categories",
+          "url": "/categories"
+        },
+        {
+          "name": "Tags",
+          "url": "/tags"
+        }
+      ]
+    },
+    {
+      "name": "Tools",
+      "url": "/tools",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Amortization Tables",
+          "url": "/tools/amortization-table-generator"
+        }
+      ]
+    },
+    {
+      "name": "Templates",
+      "url": "/templates"
+    },
+    {
+      "name": "General Information",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "About",
+          "url": "/about"
+        },
+        {
+          "name": "Contact",
+          "url": "/contact"
+        },
+        {
+          "name": "Privacy Policy",
+          "url": "/privacy-policy"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "name": "About",
+      "url": "/about"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact"
+    },
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy-policy"
+    }
+  ]
+}

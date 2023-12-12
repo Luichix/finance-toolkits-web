@@ -1,0 +1,26 @@
+.btn {
+  @apply inline-block rounded-lg border px-6 py-3 font-semibold transition;
+}
+
+.btn-primary {
+  @apply bg-primary text-white;
+}
+
+.btn-outline-primary {
+  @apply border-primary bg-transparent hover:bg-primary hover:text-white;
+}
+
+.btn-complementary {
+  @apply bg-[#e65252] text-white;
+}
+
+.btn-sm {
+  @apply inline-block rounded-lg border px-4 py-2 font-semibold transition;
+}
+
+.btn-download {
+  @apply flex items-center gap-2 border-primary rounded-lg border pl-4 font-bold text-text;
+  span {
+    @apply bg-primary text-white text-2xl py-2 px-4 rounded-tr-lg rounded-br-lg;
+  }
+}

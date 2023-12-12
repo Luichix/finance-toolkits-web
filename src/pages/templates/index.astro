@@ -1,0 +1,175 @@
+---
+import config from "@config/config.json";
+import Base from "@layouts/Base.astro";
+import { getSinglePage } from "@lib/contentParser.astro";
+import { sortByDate } from "@lib/utils/sortFunctions";
+
+import type { Author } from "@interfaces/author";
+const authors = (await getSinglePage("authors")) as Author[];
+import dateFormat from "@lib/utils/dateFormat";
+import { humanize, slugify } from "@lib/utils/textConverter";
+import { BiCalendarEdit, BiCategoryAlt } from "react-icons/bi/index.js";
+
+export async function getStaticPaths() {
+  const templates = await getSinglePage("templates");
+  const totalPages = Math.ceil(templates.length / config.settings.templates);
+  const paths = [];
+
+  for (let i = 1; i < totalPages; i++) {
+    paths.push({
+      params: {
+        slug: (i + 1).toString(),
+      },
+    });
+  }
+
+  return paths;
+}
+
+const { slug } = Astro.params;
+const templates = await getSinglePage("templates");
+const sortedTemplates = sortByDate(templates);
+const totalPages = Math.ceil(templates.length / config.settings.templates);
+const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
+const indexOfLastPost = currentPage * config.settings.templates;
+const indexOfFirstPost = indexOfLastPost - config.settings.templates;
+const currentTemplates = sortedTemplates.slice(
+  indexOfFirstPost,
+  indexOfLastPost,
+);
+
+import { Image } from "astro:assets";
+import { getEntry } from "astro:content";
+import { markdownify } from "@lib/utils/textConverter";
+import Pagination from "@layouts/components/Pagination.astro";
+
+const entry = await getEntry("templates", "-index");
+const { title, meta_title, description, image, download } = entry.data;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <section class="section">
+    <div class="bg-white">
+      <main class="pb-24">
+        <div class="px-4 py-8 text-center sm:px-6 lg:px-8">
+          <h1 set:html={markdownify(title)} class="h2 page-heading mb-4" />
+          <p class="mx-auto max-w-xl text-base text-gray-500">
+            {description}
+          </p>
+        </div>
+
+        {/* Filters */}
+
+        {/* Product grid */}
+        <section
+          aria-labelledby="products-heading"
+          class="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8"
+        >
+          <h2 id="products-heading" class="sr-only">Templates</h2>
+
+          <div
+            class="-mx-px grid grid-cols-1 sm:grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4"
+          >
+            {
+              currentTemplates.map((template) => (
+                <div class="flex flex-col justify-between group relative border-b border-r border-gray-200 p-4 sm:p-6">
+                  <div>
+                    <div class="relative aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
+                      <Image
+                        src={template.data.image}
+                        alt={template.data.description}
+                        width={192}
+                        height={192}
+                        class="h-full w-full object-cover object-center"
+                      />
+                      <div class="absolute bottom-1 right-1 bg-white rounded-md p-1 bg-opacity-50 ">
+                        {authors
+                          .filter((author) =>
+                            template.data.authors
+                              .map((author: string) => slugify(author))
+                              .includes(slugify(author.data.title)),
+                          )
+                          .map((author) => (
+                            <a
+                              href={`/authors/${slugify(author.data.title)}`}
+                              class="flex items-center hover:text-primary font-medium"
+                            >
+                              {author.data.image && (
+                                <Image
+                                  src={author.data.image}
+                                  alt={author.data.title}
+                                  height={50}
+                                  width={50}
+                                  class="mr-2 h-6 w-6 rounded-full"
+                                />
+                              )}
+                              <span>{author.data.title}</span>
+                            </a>
+                          ))}
+                      </div>
+                    </div>
+                    <div class="py-4 flex flex-col gap-2 ">
+                      <h5 class="h5">
+                        <a href={`templates/${template.slug}`}>
+                          <span aria-hidden="true" class="absolute inset-0" />
+                          {template.data.title}
+                        </a>
+                      </h5>
+                      <p class="text-base text-text">
+                        {template.data.description.split(".")[0]}&#46;
+                      </p>
+                    </div>
+                    <ul class=" pb-4 flex flex-wrap items-center text-text">
+                      <li class="mr-5 flex items-center flex-wrap font-medium">
+                        <BiCalendarEdit className="mr-1 h-5 w-5 text-gray-600" />
+                        <>{dateFormat(template.data.date)}</>
+                      </li>
+                      <li class="mr-5 flex items-center flex-wrap">
+                        <BiCategoryAlt className="mr-1 h-[18px] w-[18px] text-gray-600" />
+                        <>
+                          <ul>
+                            {template.data.categories.map(
+                              (category: string, i: number) => (
+                                <li class="inline-block">
+                                  <a
+                                    href={`/categories/${slugify(category)}`}
+                                    class="mr-2 hover:text-primary font-medium"
+                                  >
+                                    {humanize(category)}
+                                    {i !==
+                                      template.data.categories.length - 1 &&
+                                      ","}
+                                  </a>
+                                </li>
+                              ),
+                            )}
+                          </ul>
+                        </>
+                      </li>
+                    </ul>
+                  </div>
+                  <a
+                    href={template.data.download}
+                    class="btn btn-primary self-start"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Download
+                  </a>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        {/* Pagination */}
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
+      </main>
+    </div>
+  </section>
+</Base>

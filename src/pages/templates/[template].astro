@@ -1,0 +1,32 @@
+---
+import Base from "@layouts/Base.astro";
+import { getSinglePage } from "@lib/contentParser.astro";
+import { type Template } from "@interfaces/template";
+import TemplateSingle from "@layouts/TemplateSingle.astro";
+
+export async function getStaticPaths() {
+  const templates = (await getSinglePage("templates")) as Template[];
+
+  const paths = templates.map((template) => ({
+    params: {
+      template: template.slug,
+    },
+    props: { template },
+  }));
+  return paths;
+}
+
+const { template } = Astro.props;
+const { title, meta_title, description, image } = template.data;
+
+const currentPage = new URL(Astro.request.url).pathname;
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={image}
+>
+  <TemplateSingle template={template} />
+</Base>

@@ -1,0 +1,194 @@
+---
+import { Image } from "astro:assets";
+import Gallery from "@components/common/Gallery";
+import Details from "@components/common/Details";
+import type { Template } from "@interfaces/template";
+import type { Author } from "@interfaces/author";
+import { humanize, remarkify, slugify } from "@lib/utils/textConverter";
+import dateFormat from "@lib/utils/dateFormat";
+import { BiCalendarEdit, BiCategoryAlt } from "react-icons/bi/index.js";
+import similerItems from "@lib/utils/similarItems";
+import { getSinglePage } from "@lib/contentParser.astro";
+
+const authors = (await getSinglePage("authors")) as Author[];
+const templates = await getSinglePage("templates");
+const { template } = Astro.props;
+const {
+  title,
+  description,
+  categories,
+  image,
+  gallery,
+  date,
+  similar_templates,
+  download,
+} = template.data;
+
+const similarTemplates = similerItems(
+  template,
+  templates,
+  template.slug,
+  similar_templates,
+) as Template[];
+
+
+const content = await remarkify(template.body);
+---
+
+<div class="bg-white">
+  <main class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:max-w-none">
+      {/* Product */}
+      <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+        {/* Image gallery */}
+        <Gallery
+          client:load
+          images={gallery}
+          name={title}
+          description={description}
+          alt={title}
+        />
+
+        {/* Product info */}
+        <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+          <h1 class="h3">
+            {title}
+          </h1>
+          <div class="mt-3">
+            <h2 class="sr-only">Template Information</h2>
+            <ul class="pb-4 flex flex-wrap items-center text-text">
+              <li class="mr-5 flex items-center flex-wrap font-medium">
+                <BiCalendarEdit className="mr-1 h-5 w-5 text-gray-600" />
+                <>{dateFormat(date)}</>
+              </li>
+              <li class="mr-5 flex items-center flex-wrap">
+                <BiCategoryAlt
+                  className="mr-1 h-[18px] w-[18px] text-gray-600"
+                />
+                <>
+                  <ul>
+                    {
+                      categories.map((category: string, i: number) => (
+                        <li class="inline-block">
+                          <a
+                            href={`/categories/${slugify(category)}`}
+                            class="mr-2 hover:text-primary font-medium"
+                          >
+                            {humanize(category)}
+                            {i !== template.data.categories.length - 1 && ","}
+                          </a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6">
+            <h3 class="sr-only">Description</h3>
+
+            <div class="text-text">
+              {description}
+            </div>
+          </div>
+          <div class="mt-10 flex">
+            <a
+              href={download}
+              class="btn btn-primary"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Download
+            </a>
+          </div>
+
+          <section aria-labelledby="details-heading" class="mt-12">
+            <h2 id="details-heading" class="sr-only">Additional Details</h2>
+
+            <div class="divide-y divide-gray-200 border-t">
+              {
+                content.map((detail, index) => (
+                  <Details client:load detail={detail} />
+                ))
+              }
+            </div>
+          </section>
+        </div>
+      </div>
+      <section
+        aria-labelledby="related-heading"
+        class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"
+      >
+        <h3 id="related-heading" class="h4">Other Related Templates</h3>
+
+        <div
+          class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+        >
+          {
+            similarTemplates.map((template) => (
+              <div>
+                <div class="relative">
+                  <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                    <Image
+                      src={template.data.image}
+                      alt={template.data.description}
+                      width={288}
+                      height={288}
+                      class="h-full w-full object-cover object-center"
+                    />
+                  </div>
+                  <div class="absolute bottom-2 right-1 bg-white rounded-md p-1 bg-opacity-90 ">
+                    {authors
+                      .filter((author) =>
+                        template.data.authors
+                          .map((author: string) => slugify(author))
+                          .includes(slugify(author.data.title)),
+                      )
+                      .map((author) => (
+                        <a
+                          href={`/authors/${slugify(author.data.title)}`}
+                          class="flex items-center hover:text-primary font-medium"
+                        >
+                          {author.data.image && (
+                            <Image
+                              src={author.data.image}
+                              alt={author.data.title}
+                              height={50}
+                              width={50}
+                              class="mr-2 h-6 w-6 rounded-full"
+                            />
+                          )}
+                          <span>{author.data.title}</span>
+                        </a>
+                      ))}
+                  </div>
+                </div>
+                <div class="relative  py-4">
+                  <h5 class="h5">
+                        <a href={`${template.slug}`}>
+                          <span aria-hidden="true" class="absolute inset-0" />
+                          {template.data.title}
+                        </a>
+                      </h5>
+                  <p class="mt-1 text-sm text-gray-500">
+                    {template.data.description.split(".")[0]}&#46;
+                  </p>
+                </div>
+                <a
+                  href={template.data.download}
+                  class="btn btn-primary"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Download
+                  <span class="sr-only">, {template.data.title}</span>
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
