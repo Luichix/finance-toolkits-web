@@ -1,16 +1,16 @@
 ---
-import { Image } from "astro:assets";
-import Share from "@layouts/components/Share.astro";
-import SimilarPosts from "@layouts/components/SimilarPosts.astro";
-import { getSinglePage } from "@lib/contentParser.astro";
-import dateFormat from "@lib/utils/dateFormat";
-import similerItems from "@lib/utils/similarItems";
-import { humanize, markdownify, slugify } from "@lib/utils/textConverter";
-import { BiCalendarEdit, BiCategoryAlt } from "react-icons/bi/index.js";
-import type { Author } from "@interfaces/author";
+import { Image } from 'astro:assets';
+import Share from '@layouts/components/Share.astro';
+import SimilarPosts from '@layouts/components/SimilarPosts.astro';
+import { getSinglePage } from '@lib/contentParser.astro';
+import dateFormat from '@lib/utils/dateFormat';
+import similerItems from '@lib/utils/similarItems';
+import { humanize, markdownify, slugify } from '@lib/utils/textConverter';
+import { BiCalendarEdit, BiCategoryAlt } from 'react-icons/bi/index.js';
+import type { Author } from '@interfaces/author';
 
-const allAuthors = (await getSinglePage("authors")) as Author[];
-const posts = await getSinglePage("posts");
+const allAuthors = (await getSinglePage('authors')) as Author[];
+const posts = await getSinglePage('posts');
 const { post } = Astro.props;
 const {
   title,
@@ -38,7 +38,7 @@ const { Content } = await post.render();
                 .filter((author) =>
                   authors
                     .map((author: string) => slugify(author))
-                    .includes(slugify(author.data.title)),
+                    .includes(slugify(author.data.title))
                 )
                 .map((author, i) => (
                   <a
@@ -75,7 +75,7 @@ const { Content } = await post.render();
                         class="mr-2 hover:text-primary font-medium"
                       >
                         {humanize(category)}
-                        {i !== post.data.categories.length - 1 && ","}
+                        {i !== post.data.categories.length - 1 && ','}
                       </a>
                     </li>
                   ))
@@ -85,21 +85,6 @@ const { Content } = await post.render();
           </li>
         </ul>
       </div>
-
-      <div class="col-12 mt-8 mb-2">
-        {
-          image && (
-            <Image
-              src={image}
-              height={500}
-              width={1000}
-              alt={title}
-              class="rounded-lg"
-            />
-          )
-        }
-      </div>
-
       <div class="md:col-10">
         <div class="content mb-16 text-left">
           <Content />
